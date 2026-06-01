@@ -3,34 +3,26 @@
 Start out by installing [rustup](https://rustup.rs). Then, `cd` into this directory and run:
 
 ```shell
-rustup show
+rustc --help
 ```
 
 which will make rustup install the necessary toolchain. It should output something along the lines of:
 
 ```plaintext
-$ rustup show                                                                                                                                          [1]
-Default host: x86_64-unknown-linux-gnu
-rustup home:  ~/.rustup
+$ rustc --help
 
-(...download...)
+info: syncing channel updates for stable-x86_64-unknown-linux-gnu
+(...snip...)
 
-installed toolchains
---------------------
-nightly-2025-10-31-x86_64-unknown-linux-gnu (active)
+Usage: rustc [OPTIONS] INPUT
 
-active toolchain
-----------------
-name: nightly-2025-10-31-x86_64-unknown-linux-gnu
-active because: overridden by '~/FtcRustController/rust-toolchain.toml'
-installed targets:
-  aarch64-linux-android
-  armv7-linux-androideabi
+Options:
+(...snip...)
 ```
 
 Then, you can code in <TeamCode/team_code_rust/src/lib.rs> and use the standard gradle compilation process, or you can use the tiny build script in the directory which calls into gradle to compile.
 
-If you are unfamiliar with Rust, I HIGHLY recommend <https://doc.rust-lang.org/stable/book> to learn. Use your favorite IDE (if you don't have one, I recommend Visual Studio Code) and look for an extension called `rust-analyzer`, which is the best language server available for Rust. I already have a vscode configuration file for setting the check command to `clippy`, but if using a different IDE I'd suggest searching in the settings and changing the check command to `clippy`. The reason for that is Rust has a more advanced checker called clippy which provides many more lints. The configuration for lints can be adjusted in <TeamCode/team_code_rust/Cargo.toml>. If you need any help with Rust in general feel free to ask in the community Discord server (<https://discord.gg/rust-lang-community>), and if you have questions about the library hit me up on Discord at `averseabfun` or over email at `averse.abfun@gmail.com`.
+If you are unfamiliar with Rust, I HIGHLY recommend <https://doc.rust-lang.org/stable/book> to learn. Use your favorite IDE (if you don't have one, I recommend Visual Studio Code) and look for an extension called `rust-analyzer`, which is the language server for Rust. I already have a vscode configuration file for setting the check command to `clippy`, but if using a different IDE I'd suggest searching in the settings and changing the check command to `clippy`. The reason for that is Rust has a more advanced checker called clippy which provides many more lints. The configuration for lints can be adjusted in <TeamCode/team_code_rust/Cargo.toml>. If you need any help with Rust in general feel free to ask in the community Discord server (<https://discord.gg/rust-lang-community>), and if you find any issues please report them with github issues.
 
 ## NOTICE
 

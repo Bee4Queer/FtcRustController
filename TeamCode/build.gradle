@@ -48,9 +48,7 @@ cargo {
     module  = "team_code_rust"
     libname = "team_code_rust"
     targets = ["arm", "arm64"]
-    apiLevel = 29
-    extraCargoBuildArguments = ["-C", "debuginfo=2"]
-    profile = "debug"
+    apiLevel = 25
 }
 
 tasks.configureEach { task ->

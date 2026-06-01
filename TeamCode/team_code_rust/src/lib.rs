@@ -6,7 +6,7 @@ use ftc::{ftc, hardware::DcMotor};
 #[ftc(name = "Example: My Linear Op Mode", linear, teleop, group = "Example")]
 fn my_linear_op_mode(ctx: &ftc::FtcContext) {
     // equivalent to hardwareMap.get(DcMotor.class, "motor") in Java
-    // also fun fact: the syntax `::<T>` is affectionately called the turbofish!
+    // also fun fact: the syntax `::<T>` where T is a type is affectionately called the turbofish!
     let motor = ctx.hardware().get::<DcMotor>("motor");
     motor.set_direction(ftc::hardware::Direction::Forward);
 

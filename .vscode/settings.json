@@ -12,4 +12,5 @@
     "terminal.integrated.env.osx": {
         "ANDROID_HOME": "${env:HOME}/Android/Sdk"
     },
+    "java.configuration.updateBuildConfiguration": "interactive",
 }

@@ -5,13 +5,15 @@ edition = "2024"
 
 [dependencies]
 ftc = { path = "../ftc-rust", version = "11.1.0" }
+log = "0.4.30"
 
 [lib]
 name = "team_code_rust"
 crate-type = ["cdylib"]
 
+# Feel free to customize the below, teams!
 [lints.rust]
-missing_docs = "deny"
+missing_docs = "warn"
 missing_debug_implementations = "warn"
 unused_import_braces = "warn"
 
