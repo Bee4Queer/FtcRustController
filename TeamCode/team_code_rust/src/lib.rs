@@ -1,5 +1,3 @@
-//! Entry point to Rust code.
-
 use ftc::{ftc, hardware::DcMotor};
 
 /// Example linear op mode.
