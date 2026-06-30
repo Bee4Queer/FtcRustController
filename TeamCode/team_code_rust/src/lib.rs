@@ -1,4 +1,7 @@
-use ftc::{ftc, hardware::DcMotor};
+//! Example Rust opmodes.
+use std::time::Duration;
+
+use ftc::{ftc, hardware::DcMotor, log::info};
 
 /// Example linear op mode.
 #[ftc(name = "Example: My Linear Op Mode", linear, teleop, group = "Example")]
@@ -16,6 +19,54 @@ fn my_linear_op_mode(ctx: &ftc::FtcContext) {
     // ctx.running() instead of opModeIsActive()
 
     motor.set_power(0.5);
-    ctx.sleep_s(2.0);
+    std::thread::sleep(Duration::from_secs_f32(2.0));
     motor.set_power(0.0);
+}
+
+/// State used in the iterative op mode.
+#[derive(Default)]
+struct IterativeState {
+    /// Devices implement Default by returning a null object of sorts that panics
+    /// if you use it, but comes in handy for stuff like this.
+    motor: DcMotor,
+}
+
+/// Example iterative op mode.
+#[ftc(
+    name = "Example: My Iterative Op Mode",
+    iterative,
+    teleop,
+    group = "Example"
+)]
+fn my_iterative_op_mode(iterative: &ftc::IterativeContext) {
+    iterative.init(|ctx: &ftc::FtcContext| {
+        ctx.with_state(|state: &mut IterativeState| {
+            // equivalent to hardwareMap.get(DcMotor.class, "motor") in Java:
+            state.motor = ctx.hardware().get::<DcMotor>("motor");
+            state.motor.set_direction(ftc::hardware::Direction::Forward);
+
+            ctx.telemetry().add_data("Status", "Initalized");
+            ctx.telemetry().update();
+        });
+    });
+
+    iterative.start(|ctx| { // types can be elided sometimes
+        info!("1");
+        ctx.with_state(|state: &mut IterativeState| {
+            info!("2");
+            state.motor.set_power(0.5);
+            info!("3");
+            std::thread::sleep(Duration::from_secs_f32(2.0));
+            info!("4");
+            state.motor.set_power(0.0);
+            info!("5");
+        });
+        info!("6");
+    });
+
+    iterative.stop(|ctx| {
+        info!("Ran for {:?}!", ctx.runtime());
+    });
+
+    // attempting to call wait_for_start with an interative context will immediately return and print a warning
 }
