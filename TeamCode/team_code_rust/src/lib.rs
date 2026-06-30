@@ -23,7 +23,7 @@ fn my_linear_op_mode(ctx: &ftc::FtcContext) {
     motor.set_power(0.0);
 }
 
-/// State used in the iterative op mode.
+/// State used in the iterative op mode. Essentially equivalent to adding properties to a class in java.
 #[derive(Default)]
 struct IterativeState {
     /// Devices implement Default by returning a null object of sorts that panics

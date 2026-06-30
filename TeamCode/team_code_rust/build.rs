@@ -2,8 +2,8 @@
 //! 
 //! Reason this exists is because rust-analyer will expand the proc macros as you
 //! type the name of the class, and that leads to a bunch of files that tend to
-//! break stuff like M.java, My.java, MyI.java, etc. This clears all of them and
-//! lets the proc macro regenerate them.
+//! break stuff like M.java, My.java, MyI.java, etc. This clears all of them as
+//! the proc macro will regenerate them.
 
 fn main() {
     // get all teamcode
