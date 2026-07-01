@@ -1,7 +1,11 @@
 //! Example Rust opmodes.
 use std::time::Duration;
 
-use ftc::{ftc, hardware::DcMotor, log::info};
+use ftc::{
+    ftc,
+    hardware::{CRServo, DcMotor},
+    log::info,
+};
 
 /// Example linear op mode.
 #[ftc(name = "Example: My Linear Op Mode", linear, teleop, group = "Example")]
@@ -9,6 +13,7 @@ fn my_linear_op_mode(ctx: &ftc::FtcContext) {
     // equivalent to hardwareMap.get(DcMotor.class, "motor") in Java
     // also fun fact: the syntax `::<T>` where T is a type is affectionately called the turbofish!
     let motor = ctx.hardware().get::<DcMotor>("motor");
+    let servo = ctx.hardware().get::<CRServo>("servo");
     motor.set_direction(ftc::hardware::Direction::Forward);
 
     ctx.telemetry().add_data("Status", "Initalized");
@@ -18,9 +23,11 @@ fn my_linear_op_mode(ctx: &ftc::FtcContext) {
 
     // ctx.running() instead of opModeIsActive()
 
+    servo.set_power(1.0);
     motor.set_power(0.5);
     std::thread::sleep(Duration::from_secs_f32(2.0));
     motor.set_power(0.0);
+    servo.set_power(0.0);
 }
 
 /// State used in the iterative op mode. Essentially equivalent to adding properties to a class in java.
@@ -50,18 +57,13 @@ fn my_iterative_op_mode(iterative: &ftc::IterativeContext) {
         });
     });
 
-    iterative.start(|ctx| { // types can be elided sometimes
-        info!("1");
+    iterative.start(|ctx| {
+        // types can be elided sometimes
         ctx.with_state(|state: &mut IterativeState| {
-            info!("2");
             state.motor.set_power(0.5);
-            info!("3");
             std::thread::sleep(Duration::from_secs_f32(2.0));
-            info!("4");
             state.motor.set_power(0.0);
-            info!("5");
         });
-        info!("6");
     });
 
     iterative.stop(|ctx| {
