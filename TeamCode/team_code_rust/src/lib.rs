@@ -28,6 +28,7 @@ fn my_linear_op_mode(ctx: &ftc::FtcContext) {
     std::thread::sleep(Duration::from_secs_f32(2.0));
     motor.set_power(0.0);
     servo.set_power(0.0);
+    std::thread::sleep(Duration::from_secs_f32(0.5));
 }
 
 /// State used in the iterative op mode. Essentially equivalent to adding properties to a class in java.
