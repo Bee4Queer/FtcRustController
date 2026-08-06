@@ -1,40 +1,36 @@
 //! Example Rust opmodes.
 use std::time::Duration;
 
-use ftc::{
-    ftc,
-    hardware::{CRServo, DcMotor},
-    log::info,
-};
+use ftc::{ftc, hardware::DcMotor, log::info};
 
 /// Example linear op mode.
 #[ftc(name = "Example: My Linear Op Mode", linear, teleop, group = "Example")]
-fn my_linear_op_mode(ctx: &ftc::FtcContext) {
+fn my_linear_op_mode(ftc: &ftc::FtcContext) {
     // equivalent to hardwareMap.get(DcMotor.class, "motor") in Java
     // also fun fact: the syntax `::<T>` where T is a type is affectionately called the turbofish!
-    let motor = ctx.hardware().get::<DcMotor>("motor");
-    let servo = ctx.hardware().get::<CRServo>("servo");
+    let motor = ftc.hardware().get::<DcMotor>("motor");
     motor.set_direction(ftc::hardware::Direction::Forward);
 
-    ctx.telemetry().add_data("Status", "Initalized");
-    ctx.telemetry().update();
+    ftc.telemetry().add_data("Status", "Initialized");
+    ftc.telemetry().update();
 
-    ctx.wait_for_start();
+    ftc.wait_for_start();
 
-    // ctx.running() instead of opModeIsActive()
+    let gamepad1 = ftc.gamepad1(); // you can define it here, or just call the method directly in the body
 
-    servo.set_power(1.0);
-    motor.set_power(0.5);
-    std::thread::sleep(Duration::from_secs_f32(2.0));
-    motor.set_power(0.0);
-    servo.set_power(0.0);
-    std::thread::sleep(Duration::from_secs_f32(0.5));
+    while ftc.running() {
+        let power = f64::from(gamepad1.left_stick_y());
+        ftc.telemetry().add_data("Status", "Running");
+        ftc.telemetry().add_data("Power", power);
+        ftc.telemetry().update();
+
+        motor.set_power(power);
+    }
 }
 
 /// State used in the iterative op mode. Essentially equivalent to adding properties to a class in
-/// java. Has to implement Java and not have any non-static references, as well as being Send + Sync
-/// (Send means safe to move across threads, Sync means safe to move references to the type across
-/// threads).
+/// java. Has to implement Default and not have any non-static references, as well as some other
+/// requirements you shouldn't have to worry about.
 #[derive(Default)]
 struct IterativeState {
     /// Devices implement Default by returning a null object of sorts that panics
@@ -55,7 +51,7 @@ fn my_iterative_op_mode(iterative: &ftc::IterativeContext) {
         state.motor = ctx.hardware().get::<DcMotor>("motor");
         state.motor.set_direction(ftc::hardware::Direction::Forward);
 
-        ctx.telemetry().add_data("Status", "Initalized");
+        ctx.telemetry().add_data("Status", "Initialized");
         ctx.telemetry().update();
     });
 
@@ -70,6 +66,6 @@ fn my_iterative_op_mode(iterative: &ftc::IterativeContext) {
         info!("Ran for {:?}!", ctx.runtime());
     });
 
-    // attempting to call wait_for_start with an interative context will immediately return and
+    // attempting to call wait_for_start in a interative op mode will immediately return and
     // print a warning
 }
