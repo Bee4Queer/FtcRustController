@@ -1,0 +1,8 @@
+* text=auto
+*.jar binary # gradle/gradle-wrapper.jar
+*.png binary # resources in FtcRobotController
+*.wav binary # more resources in FtcRobotController
+*.pdf binary # doc/legal
+*.PNG binary # different capitalization in doc/media
+
+*.rs text

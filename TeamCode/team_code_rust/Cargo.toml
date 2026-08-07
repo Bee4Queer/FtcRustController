@@ -4,9 +4,9 @@ version = "0.0.0"
 edition = "2024"
 
 [dependencies]
-ftc = { path = "../ftc-rust", version = "11.1.1" }
+ftc = { path = "../ftc-rust" } # the actual FTC library
 
-[lib]
+[lib] # needed for linking into the java side of stuff
 name = "team_code_rust"
 crate-type = ["cdylib"]
 
